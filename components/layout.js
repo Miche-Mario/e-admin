@@ -2,7 +2,7 @@ import Nav from "@/components/nav"
 import { useSession, signIn, signOut } from "next-auth/react"
 
 
-export default function Home() {
+export default function Layout({children}) {
   const { data: session } = useSession()
 
   if(!session) {
@@ -20,8 +20,7 @@ export default function Home() {
     <div className="bg-blue-900 min-h-screen flex">
       <Nav/>
       <div className="bg-white flex-grow mt-2 rounded-lg p-4 mb-0 mr-1">
-        loggged in { session.user.email}
-        <button onClick={() => signOut('google')} className="bg-white px-4 p-2 rounded-lg text-black">Sign Out</button>
+        { children }
       </div>
     </div>
 )

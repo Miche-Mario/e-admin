@@ -1,3 +1,4 @@
+import Layout from "@/components/layout"
 import Nav from "@/components/nav"
 import { useSession, signIn, signOut } from "next-auth/react"
 
@@ -17,13 +18,18 @@ export default function Home() {
   }
 
   return (
-    <div className="bg-blue-900 min-h-screen flex">
-      <Nav/>
-      <div className="bg-white flex-grow mt-2 rounded-lg p-4 mb-0 mr-1">
-        loggged in { session.user.email}
-        <button onClick={() => signOut('google')} className="bg-white px-4 p-2 rounded-lg text-black">Sign Out</button>
+    <Layout>
+      <div className="text-blue-900 flex justify-between">
+        <h2>
+          Hello, <b>{session?.user?.name}</b> 
+        </h2>
+        <div  className="flex bg-gray-300 gap-1 text-black rounded-lg overflow-hidden p-1">
+          <img src={session?.user?.image} alt="" className="w-6 h-6 rounded-full "/>
+          <span className="py-1 px-2"></span>
+          {session?.user?.name}
+        </div>
       </div>
-    </div>
+    </Layout>
 )
 
 }
