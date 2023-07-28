@@ -1,5 +1,7 @@
 import Layout from "@/components/layout"
 import axios from "axios";
+import { redirect } from "next/dist/server/api-utils";
+import { useRouter } from "next/router";
 import { useState } from "react"
 
 export default function NewProduct() {
@@ -7,10 +9,21 @@ export default function NewProduct() {
     const [description, setDescription] = useState('');
     const [price, setPrice] = useState('');
 
-    function createProduct(e) {
+    const [goToProducts, setGoToProducts] = useState(false);
+
+    const router = useRouter()
+
+
+    async function createProduct(e) {
         e.preventDefault();
-        const data = (title, description, price)
-        axios.post('/api/products', data)
+        const data ={ title, description, price}
+        await axios.post('/api/products', data)
+
+        setGoToProducts(true)
+    }
+
+    if (goToProducts) {
+         router.push('/products')
     }
 
     return (
@@ -22,14 +35,14 @@ export default function NewProduct() {
                     type="text"
                     placeholder="product name"
                     value={title}
-                    onChange={e => setTitle(e.target.value)}
+                    onChange={(e) => setTitle(e.target.value)}
                 />
 
                 <label>Description</label>
                 <textarea
                     placeholder="description"
                     value={description}
-                    onChange={e => setDescription(e.target.value)}
+                    onChange={(e) => setDescription(e.target.value)}
                 ></textarea>
 
                 <label>Price (in FCFA)</label>
@@ -37,7 +50,7 @@ export default function NewProduct() {
                     type="number"
                     placeholder="0000"
                     value={price}
-                    onChange={e => setPrice(e.target.value)}
+                    onChange={(e) => setPrice(e.target.value)}
                 />
 
                 <button
